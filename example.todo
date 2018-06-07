@@ -1,0 +1,53 @@
+; comments are written with a leading semi-colon.
+; comments are always a single line, so each comment line
+; must start with a new semi-colon.
+
+. notes are written with prefixed dots, and can be used to highlight
+. some supporting information for an entry in the list.
+. notes are also single line entries.
+
+; Normal todo entries generally start with a hyphen. Generally, these
+; do not get styled by highlighters.
+- do something today
+
+; section headers help separate topics within a single list
+## Basic syntax
+; important entries can start with an exclamation point to get
+; highlighted directly
+! Do the important thing
+  - anything under a special heading will keep the scope.
+    . they also get sublist scopes
+
+; for entries that have questions or might not need doing, use a question mark.
+? Something that might not need doing
+  .
+
+; for "up next entries", use an at symbol. This can be used for tracking
+; progress through a larger list
+@ Thing I'm working on now
+  - sub entries retain highlighting
+  @ they can also be marked with special symbols to get that highlighting.
+  ! different kinds of tags can be nested
+    - and will get the proper sublist scopes
+  - but once the sublist is done, the original scoping is restored.
+  - and continues as normal
+
+; entries that have been completed can be marked with an equals sign.
+; this also marks the entire sublist as done automatically
+= done entries
+  - also done, since this is a sublist.
+
+
+## Caveats
+
+- The syntax currently does not understand the difference between out-denting and in-denting. For example:
+    ? This is an entry
+  - this is marked as a sublist, even though it's less-indented than its container.
+  - to mitigate, add a blank line after the entry to clear all scopes.
+
+- done scopes do not override everything under them.
+  = special tags still get highlighted
+    @ like this
+
+- to get proper scope highlighting, there must be a newline at the end of the file.
+  - otherwise, the last entry will not have a full scope applied.

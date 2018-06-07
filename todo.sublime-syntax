@@ -1,0 +1,76 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: TODO
+comment: Sublime Syntax highlighting for a basic todo list (like GitHub).
+file_extensions:
+  - todo
+first_line_match: ^\# TODO
+scope: text.todo
+contexts:
+  main:
+    - match: \;
+      push:
+        - meta_scope: comment.line.number-sign
+        - match: $
+          pop: true
+
+    - match: '##'
+      push:
+        - meta_scope: todo.heading
+        - match: $
+          pop: true
+
+    - match: \.
+      push:
+        - meta_scope: todo.note
+        - match: $
+          pop: true
+
+    - match: ^(\s*)\-.*\n
+      scope: punctuation.todo.begin.normal
+
+    - match: ^(\s*)(\@).*\n
+      scope: todo.next
+      captures:
+        2: punctuation.todo.begin.next
+      push:
+        - meta_content_scope: todo.next todo.sublist
+        - clear_scopes: true
+        - match: ^(?=\1(?! )|\s*$)
+          pop: true
+        - include: main
+
+    - match: ^(\s*)(\?).*\n
+      scope: todo.maybe
+      captures:
+        2: punctuation.todo.begin.maybe
+      push:
+        - meta_content_scope: todo.maybe todo.sublist
+        - clear_scopes: true
+        - match: ^(?=\1(?! )|\s*$)
+          pop: true
+        - include: main
+
+    - match: ^(\s*)(\!).*\n
+      scope: todo.important
+      captures:
+        2: punctuation.todo.begin.important
+      push:
+        - meta_content_scope: todo.important todo.sublist
+        - clear_scopes: true
+        - match: ^(?=\1(?! )|\s*$)
+          pop: true
+        - include: main
+
+
+    - match: ^(\s*)(\=).*\n
+      scope: todo.done
+      captures:
+        2: punctuation.todo.begin.done
+      push:
+        - meta_content_scope: todo.done todo.sublist
+        - clear_scopes: true
+        - match: ^(?=\1(?! )|\s*$)
+          pop: true
+        - include: main
